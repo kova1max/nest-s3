@@ -1,7 +1,5 @@
 export class UploadFileResponse {
-  Etag: string;
-  Location: URL;
-  key: string;
+  Location: string;
   Key: string;
   Bucket: string;
 }
