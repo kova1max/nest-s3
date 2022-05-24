@@ -2,14 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { S3 } from 'aws-sdk';
 import { ServerResponse } from 'http';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class S3Service {
-  private readonly BUCKET = 'elasticbeanstalk-us-east-2-695649667796';
+  constructor(private readonly configService: ConfigService) {}
+
+  private readonly BUCKET = this.configService.get<string>('aws.bucket');
 
   private s3 = new S3({
-    accessKeyId: 'AKIA2D57TRLKLMOPDDFI',
-    secretAccessKey: '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',
+    accessKeyId: this.configService.get<string>('aws.accessKeyId'),
+    secretAccessKey: this.configService.get<string>('aws.secretAccessKey'),
+    region: this.configService.get<string>('aws.region'),
   });
 
   public async upload(file: Express.Multer.File): Promise<any> {

@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 // import { Connection } from 'typeorm';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
 import { S3Module } from './s3/s3.module';
 
 @Module({
@@ -14,6 +16,10 @@ import { S3Module } from './s3/s3.module';
     //   synchronize: true,
     //   autoLoadEntities: true,
     // }),
+    ConfigModule.forRoot({
+      load: [configuration],
+      isGlobal: true,
+    }),
     S3Module,
   ],
 })
