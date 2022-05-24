@@ -11,9 +11,17 @@ export class S3Service {
     secretAccessKey: '',
   });
 
-  public upload() {}
+  public async upload(file: Express.Multer.File): Promise<any> {
+  	return this.s3.upload({
+  		Bucket: this.BUCKET,
+        Key: file.originalname,
+        Body: file,
+        ACL: "public-read",
+        ContentType: file.mimetype,
+  	})
+  }
   
-  public download(filename: string, res: Response) {
+  public async download(filename: string, res: Response): Promise<any> {
     const stream = this.s3.getObject({
     	Bucket: this.BUCKET,
         Key: filename
